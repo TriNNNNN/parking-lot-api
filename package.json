@@ -1,0 +1,275 @@
+{
+  "name": "smart-repair",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev nodemon src/index",
+    "prod": "npm run build && NODE_ENV=prod pm2-runtime dist",
+    "test": "echo TODO && exit 1",
+    "build": "./node_modules/.bin/babel src --out-dir dist",
+    "start": "npm run build && NODE_ENV=prod pm2-runtime dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "7.6.4",
+    "@babel/node": "7.6.3",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "7.6.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "eslint": "6.5.1",
+    "nodemon": "1.19.4"
+  },
+  "dependencies": {
+    "@babel/cli": "7.6.4",
+    "@babel/runtime": "^7.7.0",
+    "babel-polyfill": "6.26.0",
+    "bluebird": "3.7.1",
+    "body-parser": "^1.19.0",
+    "compression": "1.7.4",
+    "cors": "2.8.5",
+    "dotenv": "8.2.0",
+    "express": "^4.17.1",
+    "express-validation": "1.0.3",
+    "express-winston": "4.0.1",
+    "express-ws": "^4.0.0",
+    "helmet": "3.21.1",
+    "http-status": "1.4.0",
+    "joi": "14.3.1",
+    "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.15",
+    "moment": "2.24.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.3.3",
+    "pm2": "4.1.2",
+    "request": "^2.88.0",
+    "sequelize": "5.21.1",
+    "uniqid": "^5.0.3",
+    "util": "^0.12.3",
+    "uuid": "3.4.0",
+    "winston": "3.2.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "@babel/transform-runtime"
+      ]
+    ]
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "js,json",
+    "verbose": true,
+    "execMap": {
+      "js": "eslint src --fix && babel-node"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "impliedStrict": true
+      }
+    },
+    "rules": {
+      "indent": [
+        1,
+        "tab",
+        {
+          "SwitchCase": 1,
+          "VariableDeclarator": 0,
+          "MemberExpression": 0
+        }
+      ],
+      "linebreak-style": [
+        1,
+        "unix"
+      ],
+      "quotes": [
+        1,
+        "single"
+      ],
+      "semi": [
+        1,
+        "never"
+      ],
+      "multiline-comment-style": [
+        1,
+        "separate-lines"
+      ],
+      "new-parens": 1,
+      "newline-per-chained-call": [
+        1,
+        {
+          "ignoreChainWithDepth": 8
+        }
+      ],
+      "no-lonely-if": 1,
+      "no-multiple-empty-lines": [
+        1,
+        {
+          "max": 2,
+          "maxEOF": 1
+        }
+      ],
+      "sort-vars": 1,
+      "space-before-blocks": 1,
+      "space-before-function-paren": [
+        1,
+        "never"
+      ],
+      "space-in-parens": 1,
+      "space-infix-ops": 1,
+      "space-unary-ops": 1,
+      "spaced-comment": 1,
+      "template-tag-spacing": [
+        1,
+        "always"
+      ],
+      "wrap-regex": 1,
+      "arrow-body-style": [
+        1,
+        "as-needed"
+      ],
+      "arrow-parens": [
+        1,
+        "as-needed"
+      ],
+      "arrow-spacing": 1,
+      "key-spacing": 1,
+      "keyword-spacing": 1,
+      "no-extra-parens": 1,
+      "no-trailing-spaces": 1,
+      "no-unneeded-ternary": 1,
+      "no-whitespace-before-property": 1,
+      "no-import-assign": 1,
+      "array-callback-return": 1,
+      "block-scoped-var": 1,
+      "no-floating-decimal": 1,
+      "class-methods-use-this": 1,
+      "curly": 1,
+      "generator-star-spacing": 1,
+      "default-case": 1,
+      "dot-location": [
+        1,
+        "property"
+      ],
+      "dot-notation": 1,
+      "eqeqeq": 1,
+      "no-caller": 1,
+      "no-div-regex": 1,
+      "no-else-return": 1,
+      "no-extra-bind": 1,
+      "no-extra-label": 1,
+      "no-implicit-coercion": 1,
+      "no-multi-spaces": 1,
+      "no-useless-return": 1,
+      "radix": 1,
+      "wrap-iife": 1,
+      "yoda": 1,
+      "no-restricted-imports": 1,
+      "array-bracket-spacing": 1,
+      "object-curly-spacing": 1,
+      "object-property-newline": 1,
+      "operator-assignment": 1,
+      "padded-blocks": [
+        1,
+        "never"
+      ],
+      "no-irregular-whitespace": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "prefer-object-spread": 1,
+      "quote-props": [
+        1,
+        "consistent-as-needed"
+      ],
+      "block-spacing": 1,
+      "brace-style": [
+        1,
+        "stroustrup"
+      ],
+      "no-useless-rename": 1,
+      "no-var": 1,
+      "object-shorthand": 1,
+      "eol-last": 1,
+      "comma-spacing": 1,
+      "comma-style": 1,
+      "no-useless-computed-key": 1,
+      "prefer-arrow-callback": 1,
+      "computed-property-spacing": 1,
+      "func-call-spacing": 1,
+      "comma-dangle": 1,
+      "prefer-const": 1,
+      "prefer-destructuring": [
+        1,
+        {
+          "array": false,
+          "object": true
+        }
+      ],
+      "prefer-rest-params": 1,
+      "prefer-spread": 1,
+      "prefer-template": 1,
+      "rest-spread-spacing": 1,
+      "template-curly-spacing": 1,
+      "yield-star-spacing": 1,
+      "no-label-var": 1,
+      "no-shadow": 1,
+      "no-undefined": 1,
+      "require-await": 1,
+      "require-unicode-regexp": 1,
+      "require-atomic-updates": 0,
+      "vars-on-top": 1,
+      "prefer-named-capture-group": 1,
+      "prefer-promise-reject-errors": 1,
+      "prefer-regex-literals": 1,
+      "no-octal-escape": 1,
+      "no-duplicate-imports": 1,
+      "no-new-wrappers": 1,
+      "no-new-func": 1,
+      "no-new": 1,
+      "no-proto": 1,
+      "no-eval": 1,
+      "no-useless-constructor": 1,
+      "no-implied-eval": 1,
+      "no-invalid-this": 1,
+      "no-extend-native": 1,
+      "no-return-assign": 1,
+      "no-return-await": 1,
+      "no-self-assign": 1,
+      "no-self-compare": 1,
+      "no-throw-literal": 1,
+      "no-unmodified-loop-condition": 1,
+      "no-unused-expressions": 1,
+      "no-unused-vars": 1,
+      "no-useless-call": 1,
+      "no-useless-concat": 1,
+      "no-iterator": 1,
+      "no-lone-blocks": 1,
+      "no-loop-func": 1,
+      "guard-for-in": 1,
+      "max-classes-per-file": [
+        1,
+        4
+      ],
+      "complexity": 1,
+      "consistent-return": 1
+    }
+  }
+}
