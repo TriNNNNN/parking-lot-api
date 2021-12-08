@@ -39,11 +39,9 @@ const fetchMyAssignedJobs = (user_id, action_status_id) => {
 	return pool.query(query)
 }
 
-const isValidJob = (job_id, user_id) => {
-	return trJobDetail.findOne({where: {tr_job_head_id: job_id,
-		assigned_to: user_id},
-	raw: true})
-}
+const isValidJob = (job_id, user_id) => trJobDetail.findOne({where: {tr_job_head_id: job_id,
+	assigned_to: user_id},
+raw: true})
 
 export {
 	getEngineers,

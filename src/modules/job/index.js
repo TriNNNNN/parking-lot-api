@@ -15,7 +15,7 @@ const routes = [{
 		// middlewares: [createJobValidator],
 		handler: getJobsPendingForAssignment
 	}
-]
+	]
 }]
 
 export default {

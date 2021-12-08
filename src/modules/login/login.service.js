@@ -8,7 +8,7 @@ const isValidLogin = (username, password) => vwUser.findOne({
 	raw: true
 })
 
-const getUserById = (id) => vwUser.findOne({
+const getUserById = id => vwUser.findOne({
 	where: {
 		id
 	},

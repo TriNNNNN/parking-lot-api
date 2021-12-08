@@ -26,12 +26,13 @@ const login = async(req, res, next) => {
 	}
 }
 
-const getUserInfo = async (req, res, next) => {
-	try{
-		const {user:{id}} = req
-		let data = await getUserById(id)
+const getUserInfo = async(req, res, next) => {
+	try {
+		const {user: {id}} = req
+		const data = await getUserById(id)
 		return res.status(200).send(data)
-	} catch(err){
+	}
+	catch (err) {
 		next(err)
 	}
 }

@@ -62,17 +62,18 @@ const fetchMyJobs = async(req, res, next) => {
 	}
 }
 
-const repairComplete = async (req, res, next) => {
-	const {user:{role_name, id}, body:{job_id}} = req
+const repairComplete = async(req, res, next) => {
+	const {user: {role_name, id}, body: {job_id}} = req
 	try {
 		if (role_name !== 'Engineer') {
 			throw new APIError('Permission denied', 403)
 		}
-		let job = await isValidJob(job_id, id)
-		if(job){
+		const job = await isValidJob(job_id, id)
+		if (job) {
 			return sequelize.transaction(async transaction => {
 				const jobDetail = {tr_job_head_id: job_id,
-					mst_action_status_id: 4, assigned_by: id}
+					mst_action_status_id: 4,
+					assigned_by: id}
 				await addJobDetail(jobDetail, transaction)
 				await updateJobStatus(job_id, 4, transaction)
 				return res.status(200).send({message: 'Repair successful.'})
@@ -80,9 +81,8 @@ const repairComplete = async (req, res, next) => {
 			.catch(err => {
 				throw err
 			})
-		} else {
-			throw new APIError('Invalid job.', 500)
 		}
+		throw new APIError('Invalid job.', 500)
 	}
 	catch (err) {
 		next(err)
