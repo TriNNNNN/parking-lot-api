@@ -40,8 +40,11 @@ const processJobCreation = data => sequelize.transaction(async transaction => {
 })
 
 const createJob = async(req, res, next) => {
-	const {body: {customer_product: {mst_model_id, product_id}, mst_oem_id, mst_service_location_id}, user} = req
+	const {body: {customer_product: {mst_model_id, product_id}, mst_oem_id, mst_service_location_id}, user: {role_name}} = req
 	try {
+		if (role_name !== 'Front Desk') {
+			throw new APIError('Permission denied', 403)
+		}
 		await validateInputData(mst_model_id, product_id, mst_oem_id, mst_service_location_id)
 		await processJobCreation(req.body)
 		res.status(200).send({message: 'Job created successfully'})
