@@ -49,7 +49,7 @@ const processJobCreation = data => sequelize.transaction(async transaction => {
 const createJob = async(req, res, next) => {
 	const {body: {customer_product: {mst_model_id, product_id, imei1}, mst_oem_id, mst_service_location_id}, user: {role_name}} = req
 	try {
-		if (role_name !== 'Front Desk') {
+		if (role_name !== 'FrontDesk') {
 			throw new APIError('Permission denied', 403)
 		}
 		await validateInputData(mst_model_id, product_id, mst_oem_id, mst_service_location_id, imei1)

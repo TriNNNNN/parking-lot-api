@@ -5,7 +5,7 @@ import {getJob, addJobDetail, updateJobStatus} from '../engineer/engineer.servic
 const getReadyForDeliveryJobs = async(req, res, next) => {
 	try {
 		const {user: {role_name, mst_service_location_id}} = req
-		if (role_name !== 'Front Desk') {
+		if (role_name !== 'FrontDesk') {
 			throw new APIError('Permission denied', 403)
 		}
 		const data = await getJobsPendingForDelivery(mst_service_location_id)
@@ -19,7 +19,7 @@ const getReadyForDeliveryJobs = async(req, res, next) => {
 const deliverToCustomer = async(req, res, next) => {
 	try {
 		const {user: {id, role_name, mst_service_location_id}, body: {job_id}} = req
-		if (role_name !== 'Front Desk') {
+		if (role_name !== 'FrontDesk') {
 			throw new APIError('Permission denied', 403)
 		}
 		const jobInfo = await getJob(job_id)
