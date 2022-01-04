@@ -11,7 +11,7 @@ const login = async(req, res, next) => {
 			throw new APIError('Invalid request', 500)
 		}
 		const pass = crypto.createHash('md5').update(password).digest('hex')
-		console.log('pass', pass)
+		// console.log('pass', pass)
 		const validUser = await isValidLogin(username, pass)
 		if (!validUser) {
 			throw new APIError('Invalid username or password', 500)

@@ -1,11 +1,13 @@
 import _ from 'lodash'
+import {sequelize} from '../../utils'
 
 const getMasterDataByModel = (model, filter = {}) => {
-    let where = filter
-    return model.findAll({ where, raw: true })
-    .catch(err => { 
-        throw err 
-    })
+	const where = filter
+	return sequelize.models[model].findAll({where,
+		raw: true})
+	.catch(err => {
+		throw err
+	})
 }
 
 export {

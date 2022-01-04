@@ -4,7 +4,7 @@ import {getMasterDataValidator} from './master.validator'
 const routes = [{
 	path: '/master',
 	method: 'post',
-    middlewares: [getMasterDataValidator],
+	// middlewares: [getMasterDataValidator],
 	handler: getMasterData
 }]
 

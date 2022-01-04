@@ -3,7 +3,7 @@ import _ from 'lodash'
 import {modifyErrorObject} from '../../utils'
 
 const getMasterDataSchema = Joi.object().keys({
-	model: Joi.number().required()
+	model: Joi.string().required()
 }).required()
 
 const getMasterDataValidator = (req, res, next) => {
