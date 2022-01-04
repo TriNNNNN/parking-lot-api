@@ -109,3 +109,20 @@ curl --location --request POST 'http://localhost:9000/v1/qc' \
 --data-raw '{
     "job_id": 5
 }'
+
+
+-- get all jobs by mst_service_location_id
+
+curl --location --request GET 'http://localhost:9000/v1/job/all' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJqb2huY2VuYSIsIm1vYmlsZV9udW1iZXIiOiI5OTg4Nzc4ODk5IiwiZW1haWxfaWQiOiJqb2huQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MiwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsInJvbGVfbmFtZSI6IlN1cGVydmlzb3IiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiQjJYIFNvbHV0aW9ucyIsImlhdCI6MTYzNTkzMTE2N30.HU-BVUd1M45rkRrqzKz33MwybN-RoJFyqQMFQPCld_Q' \
+--data-raw ''
+
+
+-- get job by imei or job number
+
+curl --location --request POST 'http://localhost:9000/v1/job/search' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJqb2huY2VuYSIsIm1vYmlsZV9udW1iZXIiOiI5OTg4Nzc4ODk5IiwiZW1haWxfaWQiOiJqb2huQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MiwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsInJvbGVfbmFtZSI6IlN1cGVydmlzb3IiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiQjJYIFNvbHV0aW9ucyIsImlhdCI6MTYzNTkzMTE2N30.HU-BVUd1M45rkRrqzKz33MwybN-RoJFyqQMFQPCld_Q' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "searchText": "AAdd345678987655"
+}'

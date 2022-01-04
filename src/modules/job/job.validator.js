@@ -42,11 +42,21 @@ const createJobSchema = Joi.object().keys({
 	customer_product: trCustomerProductSchema
 })
 
+const searchJobSchema = Joi.object().keys({
+	searchText: Joi.string().required().min(2)
+})
+
 const createJobValidator = (req, res, next) => {
 	const {error, value} = createJobSchema.validate(req.body)
 	error ? next(modifyErrorObject(error)) : next()
 }
 
+const searchJobValidator = (req, res, next) => {
+	const {error, value} = searchJobSchema.validate(req.body)
+	error ? next(modifyErrorObject(error)) : next()
+}
+
 export {
-	createJobValidator
+	createJobValidator,
+	searchJobValidator
 }

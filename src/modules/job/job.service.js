@@ -1,4 +1,4 @@
-import {QueryTypes} from 'sequelize'
+import {QueryTypes, Op} from 'sequelize'
 import {sequelize} from '../../utils'
 import {mapServiceLocationOem} from '../../models/map_service_location_oem'
 import {trCustomer} from '../../models/tr_customer'
@@ -43,6 +43,10 @@ const addJob = (data, options) => trJobHead.create(data, options)
 	const jobDetail = {tr_job_head_id: res.id,
 		mst_action_status_id: res.mst_action_status_id}
 	return trJobDetail.create(jobDetail, options)
+	.then(() => res)
+	.catch(err => {
+		throw err
+	})
 })
 .catch(err => {
 	throw err
@@ -53,6 +57,27 @@ const getJobsPendingForAss = mst_service_location_id => vwJobList.findAll({
 		mst_action_status: 'Job Creation'}
 })
 
+const getActiveJobs = mst_service_location_id => vwJobList.findAll({
+	where: {mst_service_location_id,
+		mst_action_status: {[Op.ne]: 'Delivered to customer'}}
+})
+
+const getJobDetails = (mst_service_location_id, searchText) => vwJobList.findAll({
+	where: {mst_service_location_id,
+		[Op.or]: {job_number: searchText,
+			imei1: searchText}},
+	raw: true,
+	order: [['created_at', 'desc']]
+})
+
+const isAlreadyActiveJob = (imei1) => vwJobList.findOne({
+		where: { 
+				imei1,
+				mst_action_status: {[Op.ne]: 'Delivered to customer'}
+			},
+		raw: true
+	})
+
 export {
 	isValidModelProductOemMap,
 	isValidOemServiceLocation,
@@ -60,5 +85,8 @@ export {
 	addCustomerAddress,
 	addCustomerProduct,
 	addJob,
-	getJobsPendingForAss
+	getJobsPendingForAss,
+	getActiveJobs,
+	getJobDetails,
+	isAlreadyActiveJob
 }

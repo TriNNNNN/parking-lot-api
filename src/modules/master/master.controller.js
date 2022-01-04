@@ -29,12 +29,13 @@ const getMasterData = async(req, res, next) => {
 	try {
 		return Promise.map(master_tables, async model => {
 			const data = await getMasterDataByModel(model, {})
-			return Promise.resolve({model, data})
+			return Promise.resolve({model,
+				data})
 		}, {concurrency: 2})
 		.then(result => result.reduce((out, i) => {
-				out[i.model] = i.data
-				return out
-			}, {}))
+			out[i.model] = i.data
+			return out
+		}, {}))
 		.then(d => res.status(200).send(d))
 		.catch(err => {
 			throw err
