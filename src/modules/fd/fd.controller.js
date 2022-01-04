@@ -1,4 +1,4 @@
-import {APIError, sequelize} from '../../utils'
+import {APIError, sequelize, formatResponse} from '../../utils'
 import {getJobsPendingForDelivery} from '../fd/fd.service'
 import {getJob, addJobDetail, updateJobStatus} from '../engineer/engineer.service'
 
@@ -9,7 +9,7 @@ const getReadyForDeliveryJobs = async(req, res, next) => {
 			throw new APIError('Permission denied', 403)
 		}
 		const data = await getJobsPendingForDelivery(mst_service_location_id)
-		return res.status(200).send(data)
+		return res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)
@@ -40,7 +40,7 @@ const deliverToCustomer = async(req, res, next) => {
 				assigned_by: id}
 			await addJobDetail(jobDetail, transaction)
 			await updateJobStatus(job_id, 6, transaction)
-			return res.status(200).send({message: 'Delivered to customer successfully'})
+			return res.status(200).send(formatResponse('Delivered to customer successfully'))
 		})
 		.catch(err => {
 			throw err

@@ -6,6 +6,10 @@ const modifyErrorObject = err => {
 	return new APIError(error, 500)
 }
 
+const formatResponse = (message, data = []) => ({message: message.legth ? message : 'Success',
+	data})
+
 export {
-	modifyErrorObject
+	modifyErrorObject,
+	formatResponse
 }

@@ -1,6 +1,6 @@
 import {getEngineers, getJob, getEngineer, addJobDetail, updateJobStatus, fetchMyAssignedJobs, isValidJob} from './engineer.service'
 import _ from 'lodash'
-import {APIError, sequelize} from '../../utils'
+import {APIError, sequelize, formatResponse} from '../../utils'
 
 const fetchEngineers = async(req, res, next) => {
 	const {user: {mst_service_location_id, role_name}} = req
@@ -9,7 +9,7 @@ const fetchEngineers = async(req, res, next) => {
 			throw new APIError('Permission denied', 403)
 		}
 		const data = await getEngineers(mst_service_location_id)
-		res.status(200).send(data)
+		res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)
@@ -37,7 +37,7 @@ const assignEngineer = async(req, res, next) => {
 				assigned_to: engineer_id}
 			await addJobDetail(jobDetail, transaction)
 			await updateJobStatus(job.id, 3, transaction)
-			return res.status(200).send({message: 'Engineer assigned successfully'})
+			return res.status(200).send(formatResponse('Engineer assigned successfully'))
 		})
 		.catch(err => {
 			throw err
@@ -55,7 +55,7 @@ const fetchMyJobs = async(req, res, next) => {
 			throw new APIError('Invalid Engineer', 500)
 		}
 		const myJobs = await fetchMyAssignedJobs(id, 3)
-		return res.status(200).send(myJobs)
+		return res.status(200).send(formatResponse('', myJobs))
 	}
 	catch (err) {
 		next(err)
@@ -76,7 +76,7 @@ const repairComplete = async(req, res, next) => {
 					assigned_by: id}
 				await addJobDetail(jobDetail, transaction)
 				await updateJobStatus(job_id, 4, transaction)
-				return res.status(200).send({message: 'Repair successful.'})
+				return res.status(200).send(formatResponse('Repair successful.'))
 			})
 			.catch(err => {
 				throw err

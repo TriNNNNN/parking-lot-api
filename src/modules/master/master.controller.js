@@ -1,5 +1,6 @@
 import {getMasterDataByModel} from '../master/master.service'
 import {Promise} from 'bluebird'
+import {formatResponse} from '../../utils'
 
 const {
 	tables: {
@@ -36,7 +37,7 @@ const getMasterData = async(req, res, next) => {
 			out[i.model] = i.data
 			return out
 		}, {}))
-		.then(d => res.status(200).send(d))
+		.then(d => res.status(200).send(formatResponse('', d)))
 		.catch(err => {
 			throw err
 		})

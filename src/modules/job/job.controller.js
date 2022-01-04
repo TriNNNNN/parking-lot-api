@@ -1,6 +1,6 @@
 import {isValidModelProductOemMap, isValidOemServiceLocation, addCustomer, addCustomerAddress, addCustomerProduct, addJob, getJobsPendingForAss, getActiveJobs, getJobDetails, isAlreadyActiveJob} from './job.service'
 import _ from 'lodash'
-import {APIError, sequelize} from '../../utils'
+import {APIError, sequelize, formatResponse} from '../../utils'
 
 const validateInputData = async(model_id, product_id, mst_oem_id, mst_service_location_id, imei1) => {
 	const isValidProductMap = await isValidModelProductOemMap(model_id, product_id, mst_oem_id)
@@ -54,8 +54,7 @@ const createJob = async(req, res, next) => {
 		}
 		await validateInputData(mst_model_id, product_id, mst_oem_id, mst_service_location_id, imei1)
 		const jobObj = await processJobCreation(req.body)
-		res.status(200).send({message: 'Job created successfully',
-			job: jobObj})
+		res.status(200).send(formatResponse('Job created successfully', jobObj))
 	}
 	catch (err) {
 		next(err)
@@ -70,7 +69,7 @@ const getJobsPendingForAssignment = async(req, res, next) => {
 			throw new APIError('Permission denied', 403)
 		}
 		const data = await getJobsPendingForAss(mst_service_location_id)
-		res.status(200).send(data)
+		res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)
@@ -81,7 +80,7 @@ const getAllActiveJobs = async(req, res, next) => {
 	const {user: {mst_service_location_id, role_name}} = req
 	try {
 		const data = await getActiveJobs(mst_service_location_id)
-		res.status(200).send(data)
+		res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)
@@ -92,7 +91,7 @@ const searchJob = async(req, res, next) => {
 	const {body: {searchText}, user: {mst_service_location_id, role_name}} = req
 	try {
 		const data = await getJobDetails(mst_service_location_id, searchText)
-		res.status(200).send(data)
+		res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)

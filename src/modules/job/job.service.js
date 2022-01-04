@@ -70,13 +70,13 @@ const getJobDetails = (mst_service_location_id, searchText) => vwJobList.findAll
 	order: [['created_at', 'desc']]
 })
 
-const isAlreadyActiveJob = (imei1) => vwJobList.findOne({
-		where: { 
-				imei1,
-				mst_action_status: {[Op.ne]: 'Delivered to customer'}
-			},
-		raw: true
-	})
+const isAlreadyActiveJob = imei1 => vwJobList.findOne({
+	where: {
+		imei1,
+		mst_action_status: {[Op.ne]: 'Delivered to customer'}
+	},
+	raw: true
+})
 
 export {
 	isValidModelProductOemMap,

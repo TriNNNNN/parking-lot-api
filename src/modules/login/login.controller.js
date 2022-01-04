@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 import jwt from 'jsonwebtoken'
-import {APIError} from '../../utils'
+import {APIError, formatResponse} from '../../utils'
 import {isValidLogin, getUserById} from '../login/login.service'
 const {JWT_SECRET} = process.env
 
@@ -18,7 +18,7 @@ const login = async(req, res, next) => {
 		}
 		else {
 			const token = jwt.sign(validUser, JWT_SECRET)
-			res.status(200).send({token})
+			res.status(200).send(formatResponse('', {token}))
 		}
 	}
 	catch (err) {
@@ -30,7 +30,7 @@ const getUserInfo = async(req, res, next) => {
 	try {
 		const {user: {id}} = req
 		const data = await getUserById(id)
-		return res.status(200).send(data)
+		return res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {
 		next(err)
