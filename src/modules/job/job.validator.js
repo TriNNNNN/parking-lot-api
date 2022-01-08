@@ -2,6 +2,11 @@ import Joi from 'joi'
 import _ from 'lodash'
 import {modifyErrorObject} from '../../utils'
 
+const problemSchema = Joi.object().keys({
+	id: Joi.number().required(),
+	remark: Joi.string().required().allow('').allow(null)
+}).required()
+
 const trCustomerSchema = Joi.object().keys({
 	first_name: Joi.string().required(),
 	last_name: Joi.string().required(),
@@ -39,7 +44,8 @@ const createJobSchema = Joi.object().keys({
 	mst_oem_id: Joi.number().required(),
 	customer: trCustomerSchema,
 	customer_address: trCustomerAddressSchema,
-	customer_product: trCustomerProductSchema
+	customer_product: trCustomerProductSchema,
+	problems: Joi.array().items(problemSchema).min(1).max(3).required()
 })
 
 const searchJobSchema = Joi.object().keys({

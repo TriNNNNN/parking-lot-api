@@ -1,4 +1,4 @@
-import {isValidModelProductOemMap, isValidOemServiceLocation, addCustomer, addCustomerAddress, addCustomerProduct, addJob, getJobsPendingForAss, getActiveJobs, getJobDetails, isAlreadyActiveJob} from './job.service'
+import {isValidModelProductOemMap, isValidOemServiceLocation, addCustomer, addCustomerAddress, addCustomerProduct, addJob, getJobsPendingForAss, getActiveJobs, getJobDetails, isAlreadyActiveJob, addJobProblems} from './job.service'
 import _ from 'lodash'
 import {APIError, sequelize, formatResponse} from '../../utils'
 
@@ -40,6 +40,14 @@ const processJobCreation = data => sequelize.transaction(async transaction => {
 	// console.log(customerAddress, customer, customerProduct)
 	const jobHeadObj = createJobHeadObj(data, customerProduct)
 	const job = await addJob(jobHeadObj, {transaction})
+	const jobProblems = data.problems.map(i => {
+		const temp = {}
+		temp.mst_problem_id = i.id
+		temp.tr_job_head_id = job.id
+		temp.remark = i.remark
+		return temp
+	})
+	await addJobProblems(jobProblems, {transaction})
 	return job
 })
 .catch(err => {

@@ -7,6 +7,7 @@ import {trCustomerProduct} from '../../models/tr_customer_product'
 import {trJobHead} from '../../models/tr_job_head'
 import {trJobDetail} from '../../models/tr_job_detail'
 import {vwJobList} from '../../models/vw_job_list'
+import {mapJobProblem} from '../../models/map_job_problem'
 
 
 const isValidModelProductOemMap = (model_id, product_id, oem_id) => {
@@ -78,6 +79,8 @@ const isAlreadyActiveJob = imei1 => vwJobList.findOne({
 	raw: true
 })
 
+const addJobProblems = (jobProblems, options) => mapJobProblem.bulkCreate(jobProblems, options)
+
 export {
 	isValidModelProductOemMap,
 	isValidOemServiceLocation,
@@ -88,5 +91,6 @@ export {
 	getJobsPendingForAss,
 	getActiveJobs,
 	getJobDetails,
-	isAlreadyActiveJob
+	isAlreadyActiveJob,
+	addJobProblems
 }

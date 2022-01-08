@@ -1,5 +1,5 @@
 import {mapServiceLocationOem} from './map_service_location_oem'
-// import {mapUserOem} from './map_user_oem'
+import {mapJobProblem} from './map_job_problem'
 import {mapUserRepairStage} from './map_user_repair_stage'
 import {mstActionStatus} from './mst_action_status'
 import {mstModel} from './mst_model'
@@ -22,7 +22,7 @@ import {mstProblem} from './mst_problem'
 
 export {
 	mapServiceLocationOem,
-	// mapUserOem,
+	mapJobProblem,
 	mapUserRepairStage,
 	mstActionStatus,
 	mstModel,

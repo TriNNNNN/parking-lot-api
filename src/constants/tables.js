@@ -20,5 +20,6 @@ export default {
 	tr_job_head: 'tr_job_head',
 	tr_job_stage: 'tr_job_stage',
 	vw_user: 'vw_user',
-	vw_job_list: 'vw_job_list'
+	vw_job_list: 'vw_job_list',
+	map_job_problem: 'map_job_problem'
 }
