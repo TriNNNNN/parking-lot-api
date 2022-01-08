@@ -11,6 +11,7 @@ export default {
 	mst_role: 'mst_role',
 	mst_service_location: 'mst_service_location',
 	mst_user: 'mst_user',
+	mst_problem: 'mst_problem',
 	mst_warrenty_status: 'mst_warrenty_status',
 	tr_customer: 'tr_customer',
 	tr_customer_address: 'tr_customer_address',

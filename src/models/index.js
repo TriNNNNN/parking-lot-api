@@ -18,6 +18,7 @@ import {trJobDetail} from './tr_job_detail'
 import {trJobHead} from './tr_job_head'
 import {trJobStage} from './tr_job_stage'
 import {vwUser} from './vw_user'
+import {mstProblem} from './mst_problem'
 
 export {
 	mapServiceLocationOem,
@@ -39,5 +40,6 @@ export {
 	trJobDetail,
 	trJobHead,
 	trJobStage,
-	vwUser
+	vwUser,
+	mstProblem
 }

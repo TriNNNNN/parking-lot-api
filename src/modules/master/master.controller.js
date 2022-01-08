@@ -11,7 +11,8 @@ const {
 		mst_platform,
 		mst_product,
 		mst_role,
-		mst_service_location
+		mst_service_location,
+		mst_problem
 	}
 } = require('../../constants')
 
@@ -23,7 +24,8 @@ const master_tables = [
 	mst_platform,
 	mst_product,
 	mst_role,
-	mst_service_location
+	mst_service_location,
+	mst_problem
 ]
 
 const getMasterData = async(req, res, next) => {

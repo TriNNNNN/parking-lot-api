@@ -15,6 +15,7 @@ import {mstServiceLocation} from '../models/mst_service_location'
 import {mstPlatform} from '../models/mst_platform'
 import {mstWarrentyStatus} from '../models/mst_warrenty_status'
 import {mstOem} from '../models/mst_oem'
+import {mstProblem} from '../models/mst_problem'
 
 const {
 	tr_job_head
