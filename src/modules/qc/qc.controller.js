@@ -1,14 +1,19 @@
 import {APIError, sequelize, formatResponse} from '../../utils'
 import {getJobsPendingForQC} from '../qc/qc.service'
-import {getJob, addJobDetail, updateJobStatus} from '../engineer/engineer.service'
+import {getJob, addJobDetail, updateJobStatus, fetchJobProblems} from '../engineer/engineer.service'
 
 const getQCJobs = async(req, res, next) => {
 	try {
-		const {user: {role_name, mst_service_location_id}} = req
+		const {user: {role_name, mst_service_location_id, id}} = req
 		if (role_name !== 'QC') {
 			throw new APIError('Permission denied', 403)
 		}
 		const data = await getJobsPendingForQC(mst_service_location_id)
+		const jonProblems = await fetchJobProblems(id, 4)
+
+		data.forEach(i => {
+			i.problems = jonProblems.filter(p => p.tr_job_head_id == i.id)
+		})
 		return res.status(200).send(formatResponse('', data))
 	}
 	catch (err) {

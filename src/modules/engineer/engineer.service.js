@@ -29,13 +29,38 @@ const updateJobStatus = (job_id, mst_action_status_id, transaction) => trJobHead
 
 const fetchMyAssignedJobs = (user_id, action_status_id) => {
 	const query = `select
-			jh.*
+			distinct jh.*
 		from
 			SR_DEV.vw_job_list jh
 		join SR_DEV.tr_job_detail jd on
 			jh.id = jd.tr_job_head_id
 			and jh.mst_action_status_id = ${action_status_id}
 			and jd.assigned_to = ${user_id}`
+	return pool.query(query)
+}
+
+const fetchJobProblems = (user_id, action_status_id) => {
+	const query = `select
+		distinct 
+		pr.id,
+		pr.name,
+		jd.tr_job_head_id,
+		jp.remark,
+		concat(us.first_name, ' ', us.last_name) as added_by,
+		us.role_name,
+		jp.created_at
+	from
+		SR_DEV.tr_job_head jh
+	join SR_DEV.tr_job_detail jd on
+		jh.id = jd.tr_job_head_id
+	join SR_DEV.map_job_problem jp on
+		jh.id = jd.tr_job_head_id
+		and jh.mst_action_status_id = ${action_status_id}
+		and jd.assigned_to = ${user_id}
+	join SR_DEV.mst_problem pr on
+		jh.id = pr.tr_job_head_id
+	left join SR_DEV.vw_user us on
+		jp.added_by = us.id`
 	return pool.query(query)
 }
 
@@ -50,5 +75,6 @@ export {
 	addJobDetail,
 	updateJobStatus,
 	fetchMyAssignedJobs,
-	isValidJob
+	isValidJob,
+	fetchJobProblems
 }

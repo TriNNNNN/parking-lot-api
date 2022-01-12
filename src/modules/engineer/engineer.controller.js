@@ -1,4 +1,4 @@
-import {getEngineers, getJob, getEngineer, addJobDetail, updateJobStatus, fetchMyAssignedJobs, isValidJob} from './engineer.service'
+import {getEngineers, getJob, getEngineer, addJobDetail, updateJobStatus, fetchMyAssignedJobs, isValidJob, fetchJobProblems} from './engineer.service'
 import {addJobProblems} from '../job/job.service'
 import _ from 'lodash'
 import {APIError, sequelize, formatResponse} from '../../utils'
@@ -56,6 +56,12 @@ const fetchMyJobs = async(req, res, next) => {
 			throw new APIError('Invalid Engineer', 500)
 		}
 		const myJobs = await fetchMyAssignedJobs(id, 3)
+		const jonProblems = await fetchJobProblems(id, 3)
+
+		myJobs.forEach(i => {
+			i.problems = jonProblems.filter(p => p.tr_job_head_id == i.id)
+		})
+
 		return res.status(200).send(formatResponse('', myJobs))
 	}
 	catch (err) {
@@ -77,9 +83,9 @@ const repairComplete = async(req, res, next) => {
 					assigned_by: id}
 				await addJobDetail(jobDetail, transaction)
 				await updateJobStatus(job_id, 4, transaction)
-				if(problems.length){
-					let jobProblems = problems.map(i => {
-						let jobObj = {
+				if (problems.length) {
+					const jobProblems = problems.map(i => {
+						const jobObj = {
 							tr_job_head_id: job_id,
 							mst_problem_id: i.id,
 							remark: i.remark,
@@ -87,7 +93,7 @@ const repairComplete = async(req, res, next) => {
 						}
 						return jobObj
 					})
-					await addJobProblems(jobProblems, { transaction })
+					await addJobProblems(jobProblems, {transaction})
 				}
 				return res.status(200).send(formatResponse('Repair successful.'))
 			})
