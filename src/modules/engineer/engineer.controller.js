@@ -1,4 +1,5 @@
 import {getEngineers, getJob, getEngineer, addJobDetail, updateJobStatus, fetchMyAssignedJobs, isValidJob} from './engineer.service'
+import {addJobProblems} from '../job/job.service'
 import _ from 'lodash'
 import {APIError, sequelize, formatResponse} from '../../utils'
 
@@ -63,7 +64,7 @@ const fetchMyJobs = async(req, res, next) => {
 }
 
 const repairComplete = async(req, res, next) => {
-	const {user: {role_name, id}, body: {job_id}} = req
+	const {user: {role_name, id}, body: {job_id, problems}} = req
 	try {
 		if (role_name !== 'Engineer') {
 			throw new APIError('Permission denied', 403)
@@ -76,6 +77,18 @@ const repairComplete = async(req, res, next) => {
 					assigned_by: id}
 				await addJobDetail(jobDetail, transaction)
 				await updateJobStatus(job_id, 4, transaction)
+				if(problems.length){
+					let jobProblems = problems.map(i => {
+						let jobObj = {
+							tr_job_head_id: job_id,
+							mst_problem_id: i.id,
+							remark: i.remark,
+							added_by: id
+						}
+						return jobObj
+					})
+					await addJobProblems(jobProblems, { transaction })
+				}
 				return res.status(200).send(formatResponse('Repair successful.'))
 			})
 			.catch(err => {
