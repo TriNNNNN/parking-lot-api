@@ -31,7 +31,7 @@ function createJobHeadObj(data, customerProduct) {
 	}
 }
 
-const processJobCreation = data => sequelize.transaction(async transaction => {
+const processJobCreation = (data, user_id) => sequelize.transaction(async transaction => {
 	const customerAddress = await addCustomerAddress({...data.customer_address}, {transaction})
 	const customer = await addCustomer({...data.customer,
 		tr_customer_address_id: customerAddress.id}, {transaction})
@@ -45,6 +45,7 @@ const processJobCreation = data => sequelize.transaction(async transaction => {
 		temp.mst_problem_id = i.id
 		temp.tr_job_head_id = job.id
 		temp.remark = i.remark
+		temp.added_by = user_id
 		return temp
 	})
 	await addJobProblems(jobProblems, {transaction})
@@ -55,13 +56,13 @@ const processJobCreation = data => sequelize.transaction(async transaction => {
 })
 
 const createJob = async(req, res, next) => {
-	const {body: {customer_product: {mst_model_id, product_id, imei1}, mst_oem_id, mst_service_location_id}, user: {role_name}} = req
+	const {body: {customer_product: {mst_model_id, product_id, imei1}, mst_oem_id, mst_service_location_id}, user: {role_name, id}} = req
 	try {
 		if (role_name !== 'FrontDesk') {
 			throw new APIError('Permission denied', 403)
 		}
 		await validateInputData(mst_model_id, product_id, mst_oem_id, mst_service_location_id, imei1)
-		const jobObj = await processJobCreation(req.body)
+		const jobObj = await processJobCreation(req.body, id)
 		res.status(200).send(formatResponse('Job created successfully', jobObj))
 	}
 	catch (err) {
