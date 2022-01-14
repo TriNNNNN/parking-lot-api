@@ -58,7 +58,7 @@ const fetchJobProblems = (user_id, action_status_id) => {
 		and jh.mst_action_status_id = ${action_status_id}
 		and jd.assigned_to = ${user_id}
 	join SR_DEV.mst_problem pr on
-		jh.id = pr.tr_job_head_id
+		jp.mst_problem_id = pr.id
 	left join SR_DEV.vw_user us on
 		jp.added_by = us.id`
 	return pool.query(query)
