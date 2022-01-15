@@ -44,7 +44,7 @@ const fetchJobProblems = (user_id, action_status_id) => {
 		distinct 
 		pr.id,
 		pr.name,
-		jd.tr_job_head_id,
+		jp.tr_job_head_id,
 		jp.remark,
 		concat(us.first_name, ' ', us.last_name) as added_by,
 		us.role_name,
