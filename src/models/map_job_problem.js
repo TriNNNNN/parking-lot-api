@@ -25,6 +25,7 @@ const mapJobProblem = sequelize.define(map_job_problem, {
 	mst_problem_id: Sequelize.NUMBER(),
 	tr_job_head_id: Sequelize.NUMBER(),
 	remark: Sequelize.STRING(256),
+	added_by: Sequelize.NUMBER(),
 	created_at: Sequelize.DATE(),
 	modified_at: Sequelize.DATE()
 })
