@@ -4,7 +4,7 @@ const {
 
 
 export default ({
-	text = `404. Use: /v${apiVersion}/&lt;path&gt;`,
+	text = `404. Use: /v${apiVersion}/<path>`,
 	status = 404
 } = {}) => (_req, res) => {
 	if (!res.headersSent) {

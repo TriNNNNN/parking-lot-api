@@ -1,13 +1,7 @@
-import job from './job'
-import login from './login'
-import engineer from './engineer'
-import qc from './qc'
-import master from './master'
+import user from './user'
+import parkingslot from './parkingslot'
 
 export default {
-	job,
-	login,
-	engineer,
-	qc,
-	master
+	user,
+	parkingslot
 }

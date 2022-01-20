@@ -6,7 +6,6 @@ import {
 } from 'lodash'
 import staticTextHandler from './static_text_handler'
 import authMiddleware from './auth.verify'
-// import * as allModels from '../models'
 
 
 export default function generateRouter(routes) {

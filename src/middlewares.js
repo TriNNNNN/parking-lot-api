@@ -2,11 +2,13 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
-// import httpStatus from 'http-status'
 import authMiddleWare from './utils/auth.decode'
+import connectMongo from './utils/db'
+const colors = require('colors')
+
 
 function catchError(error, req, res) {
-	console.log(error)
+	console.log(colors.red(error))
 	let {
 		status,
 		message = '',
@@ -27,7 +29,7 @@ function catchError(error, req, res) {
 				...rest
 			})
 		}
-		catch (error) {
+		catch (err) {
 			res.status(500).send({
 				status: 500,
 				message: 'Something Went Wrong'
@@ -37,6 +39,7 @@ function catchError(error, req, res) {
 }
 
 const setupPreRoute = app => {
+	console.log(colors.yellow('[booting] *** pre-route configuration started'))
 	app.use(helmet())
 	app.use(cors())
 	app.use(compression({
@@ -55,6 +58,7 @@ const setupPreRoute = app => {
 }
 
 const setupPostRoute = app => {
+	console.log(colors.yellow('[booting] *** post-route configuration started'))
 	app.use((err, _req, res, _next) => { // eslint-disable-line no-unused-vars
 		if (!res.headersSent) {
 			catchError(err, _req, res)
@@ -62,7 +66,12 @@ const setupPostRoute = app => {
 	})
 }
 
+const setupMongoConnection = () => {
+	connectMongo()
+}
+
 export {
 	setupPreRoute,
-	setupPostRoute
+	setupPostRoute,
+	setupMongoConnection
 }

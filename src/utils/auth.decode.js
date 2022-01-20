@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+const colors = require('colors')
 const {
 	JWT_SECRET: jwtSecret
 } = process.env
@@ -10,13 +11,12 @@ export default (req, res, next) => {
 
 	const handleToken = _token => {
 		jwt.verify(_token, jwtSecret, (err, decoded) => {
-			// console.log(err, decoded)
 			if (err || !decoded) {
 				if (err) {
 					console.log(err)
 				}
 				else {
-					console.log('Unknown error: No decoded and no error')
+					console.log(colors.red('Unknown error: No decoded and no error'))
 				}
 				next(err || new Error('Internal server error'))
 			}
@@ -26,5 +26,10 @@ export default (req, res, next) => {
 			}
 		})
 	}
-	token ? handleToken(token) : next()
+	if (token) {
+		handleToken(token)
+	}
+	else {
+		next()
+	}
 }
