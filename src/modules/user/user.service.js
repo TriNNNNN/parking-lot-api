@@ -22,8 +22,11 @@ const registerUser = async user => {
 	return resp
 }
 
+const checkUserExits = mobile => UserModel.findOne({mobile})
+
 export {
 	isValidLogin,
 	getAllRegisteredUsers,
-	registerUser
+	registerUser,
+	checkUserExits
 }

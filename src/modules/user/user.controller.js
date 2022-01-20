@@ -1,7 +1,7 @@
 import * as crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import {APIError, formatResponse} from '../../utils'
-import {isValidLogin, getAllRegisteredUsers, registerUser} from './user.service'
+import {isValidLogin, getAllRegisteredUsers, registerUser, checkUserExits} from './user.service'
 const {JWT_SECRET} = process.env
 
 /**
@@ -59,9 +59,14 @@ const getAllUsers = async(req, res, next) => {
  * @param {String}	password
  * @return {Object} returns registered user
  */
+// eslint-disable-next-line consistent-return
 const register = async(req, res, next) => {
 	try {
-		const {password} = req.body
+		const {mobile, password} = req.body
+		const ifUserExists = await checkUserExits(mobile)
+		if (ifUserExists) {
+			return res.status(200).send(formatResponse(`User with mobile no. ${mobile} already exits`, {}))
+		}
 		const pass = crypto.createHash('md5').update(password).digest('hex')
 		req.body.password = pass
 		const user = await registerUser(req.body)
