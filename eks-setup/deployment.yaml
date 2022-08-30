@@ -16,7 +16,7 @@ spec:
         app: parking-lot-api
     spec:
       containers:
-      - image: public.ecr.aws/r8e6m3s8/ecr-dev-public/parking-lot-apt:latest
+      - image: 551891528608.dkr.ecr.ap-south-1.amazonaws.com/ecr-dev:1
         name: parking-lot-api
         imagePullPolicy: Always
         resources: {}

@@ -1,7 +1,7 @@
 on:
   push:
-    tags:
-      - dev
+    branches:
+      - main
 
 name: Node Project `parking-lot-api` CI on ECR
 
