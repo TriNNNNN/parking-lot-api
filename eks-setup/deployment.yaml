@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: parking-lot-api
+  name: parking-lot-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: parking-lot-api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: parking-lot-api
+    spec:
+      containers:
+      - image: public.ecr.aws/b5c5s7l4/adityaprakash2811/nodek8:latest
+        name: parking-lot-api
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 9000 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: parking-lot-api
+  labels:
+    run: parking-lot-api
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+  selector:
+    app: parking-lot-api
+  type: NodePort
